@@ -2,7 +2,7 @@
 
 namespace WorkingBees.Core.Models
 {
-    public class User
+    public class UserInfo
     {
         [Key]
         public long UserId { get; set; }
