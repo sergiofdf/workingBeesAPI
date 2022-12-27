@@ -8,7 +8,7 @@ namespace WorkingBees.Core.Models
         [Key]
         public long SkillId { get; set; }
         [Required(ErrorMessage = "Tipo obrigatório.")]
-        public string Type { get; set; }
+        public string SkillType { get; set; }
         [Required(ErrorMessage = "Título obrigatório.")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Nível obrigatório.")]
