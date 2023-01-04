@@ -3,9 +3,9 @@
     public interface IRepository<T> where T : class
     {
         List<T> ListAll();
-        List<T> ListAllByUserId(long Id);
+        List<T> ListAllByUserId(long userId);
         bool Insert(T entity);
-        bool Update(long Id, T entity);
-        bool Delete(long Id);
+        bool Update(long id, T entity);
+        bool Delete(long id);
     }
 }

@@ -32,22 +32,81 @@ namespace WorkingBees.Infra.Data
             }
         }
 
-        public List<Skill> ListAllByUserId(long Id)
+        public List<Skill> ListAllByUserId(long userId)
         {
-            throw new NotImplementedException();
+            var query = "SELECT * FROM Skills WHERE userId=@userId;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("userId", userId);
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                return conn.Query<Skill>(query, parameters).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
-        public bool Insert(Skill entity)
+        public bool Insert(Skill skill)
         {
-            throw new NotImplementedException();
+            var query = "INSERT INTO Skills VALUES (@userId,@skillType, @title, @progressLevel);";
+
+            var parameters = new DynamicParameters(skill);
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
-        public bool Update(long Id, Skill entity)
+        public bool Update(long id, Skill skill)
         {
-            throw new NotImplementedException();
+            var query = "UPDATE Skills SET userId=@userId, skillType=@skillType, title=@title, progressLevel=@progressLevel WHERE skillId=@skillId;";
+
+            skill.SkillId = id;
+            var parameters = new DynamicParameters(skill);
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
-        public bool Delete(long Id)
+        public bool Delete(long id)
         {
-            throw new NotImplementedException();
+            var query = "DELETE FROM Skills WHERE skillId=@id;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("id", id);
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
     }
 }
