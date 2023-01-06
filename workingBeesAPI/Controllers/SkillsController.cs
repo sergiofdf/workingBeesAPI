@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WorkingBees.Core.Interfaces;
 using WorkingBees.Core.Models;
@@ -11,10 +12,12 @@ namespace workingBeesAPI.Controllers
     public class SkillsController : ControllerBase
     {
         private readonly IService<Skill> _skillService;
+        private readonly IMapper _mapper;
 
-        public SkillsController(IService<Skill> skillService)
+        public SkillsController(IService<Skill> skillService, IMapper mapper)
         {
             _skillService = skillService;
+            _mapper = mapper;
         }
 
         [HttpGet("/Skills")]
@@ -39,10 +42,10 @@ namespace workingBeesAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         //[ServiceFilter(typeof(CheckIfSkillExistsActionFilter))]
-        public ActionResult<bool> InsertSkill(Skill skill)
+        public ActionResult<bool> InsertSkill(SkillDto skillDto)
         {
-            //CityEvent cityEventMapped = _mapper.Map<CityEvent>(cityEvent);
-            var result = _skillService.Insert(skill);
+            Skill skillMapped = _mapper.Map<Skill>(skillDto);
+            var result = _skillService.Insert(skillMapped);
             return CreatedAtAction(nameof(InsertSkill), result);
         }
 
@@ -51,10 +54,10 @@ namespace workingBeesAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[ServiceFilter(typeof(CheckIfEventIdRegisteredActionFilter))]
-        public IActionResult UpdateSkill(long id, Skill skill)
+        public IActionResult UpdateSkill(long id, SkillDto skillDto)
         {
-            //CityEvent cityEventMapped = _mapper.Map<CityEvent>(cityEvent);
-            _skillService.Update(id, skill);
+            Skill skillMapped = _mapper.Map<Skill>(skillDto);
+            _skillService.Update(id, skillMapped);
             return NoContent();
         }
 
