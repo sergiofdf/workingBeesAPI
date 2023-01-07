@@ -29,6 +29,8 @@ builder.Services.AddAutoMapper(typeof(ModelsMapper));
 
 builder.Services.AddScoped<IService<Skill>, SkillService>();
 builder.Services.AddScoped<IRepository<Skill>, SkillsRepository>();
+builder.Services.AddScoped<IService<Experience>, ExperienceService>();
+builder.Services.AddScoped<IRepository<Experience>, ExperiencesRepository>();
 
 var app = builder.Build();
 

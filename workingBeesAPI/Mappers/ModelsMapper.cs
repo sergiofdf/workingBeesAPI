@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WorkingBees.Core.Models;
+using WorkingBees.Core.Models.Dtos;
 
 namespace workingBeesAPI.Mappers
 {
@@ -8,6 +9,7 @@ namespace workingBeesAPI.Mappers
         public ModelsMapper()
         {
             CreateMap<SkillDto, Skill>();
+            CreateMap<ExperienceDto, Experience>();
         }
     }
 }
