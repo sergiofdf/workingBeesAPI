@@ -56,11 +56,11 @@ namespace WorkingBees.Infra.Data
                 throw;
             }
         }
-        public bool Insert(Experience skill)
+        public bool Insert(Experience experience)
         {
-            var query = "INSERT INTO Experience VALUES (@userId,@experienceType, @title, @initialDate, @finalDate, @description);";
+            var query = "INSERT INTO Experience VALUES (@userId,@experienceType, @title, @initialDate, @finalDate, @expDescription);";
 
-            var parameters = new DynamicParameters(skill);
+            var parameters = new DynamicParameters(experience);
 
             try
             {
@@ -75,12 +75,12 @@ namespace WorkingBees.Infra.Data
             }
         }
 
-        public bool Update(long id, Experience skill)
+        public bool Update(long id, Experience experience)
         {
-            var query = "UPDATE Experience SET userId=@userId, experienceType=@experienceType, title=@title, initialDate=@initialDate, finalDate=@finalDate, description=@description  WHERE skillId=@skillId;";
+            var query = "UPDATE Experience SET userId=@userId, experienceType=@experienceType, title=@title, initialDate=@initialDate, finalDate=@finalDate, expDescription=@expDescription  WHERE experienceId=@experienceId;";
 
-            skill.ExperienceId = id;
-            var parameters = new DynamicParameters(skill);
+            experience.ExperienceId = id;
+            var parameters = new DynamicParameters(experience);
 
             try
             {
@@ -96,7 +96,7 @@ namespace WorkingBees.Infra.Data
         }
         public bool Delete(long id)
         {
-            var query = "DELETE FROM Experience WHERE skillId=@id;";
+            var query = "DELETE FROM Experience WHERE experienceId=@id;";
 
             var parameters = new DynamicParameters();
             parameters.Add("id", id);
