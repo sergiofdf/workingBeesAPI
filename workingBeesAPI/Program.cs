@@ -33,6 +33,9 @@ builder.Services.AddScoped<IService<Experience>, ExperienceService>();
 builder.Services.AddScoped<IRepository<Experience>, ExperiencesRepository>();
 builder.Services.AddScoped<IService<SocialMediaInfo>, SocialMediaInfoService>();
 builder.Services.AddScoped<IRepository<SocialMediaInfo>, SocialMediaInfoRepository>();
+builder.Services.AddScoped<IService<UserInfo>, UserInfoService>();
+builder.Services.AddScoped<IRepository<UserInfo>, UserInfoRepository>();
+
 
 var app = builder.Build();
 
