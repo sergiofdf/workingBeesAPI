@@ -3,12 +3,23 @@ using WorkingBees.Core.Models;
 
 namespace WorkingBees.Core.Services
 {
-    public class UserInfoService : IService<UserInfo>
+    public class UserInfoService : IService<UserInfo>, IUserCompleteInfoService
     {
         public readonly IRepository<UserInfo> _userRepository;
-        public UserInfoService(IRepository<UserInfo> userRepository)
+        public readonly IRepository<Skill> _skillRepository;
+        public readonly IRepository<Experience> _experienceRepository;
+        public readonly IRepository<SocialMediaInfo> _socialMediaInfoRepository;
+        public UserInfoService(
+            IRepository<UserInfo> userRepository,
+            IRepository<Skill> skillRepository,
+            IRepository<Experience> experienceRepository,
+            IRepository<SocialMediaInfo> socialMediaInfoRepository
+            )
         {
             _userRepository = userRepository;
+            _skillRepository = skillRepository;
+            _experienceRepository = experienceRepository;
+            _socialMediaInfoRepository = socialMediaInfoRepository;
         }
 
         public List<UserInfo> ListAll()
@@ -31,6 +42,18 @@ namespace WorkingBees.Core.Services
         public bool Delete(long id)
         {
             return _userRepository.Delete(id);
+        }
+
+        public UserCompleteInfo CompileUserInfo(long userId)
+        {
+            UserInfo userInfo = _userRepository.ListAllByUserId(userId)[0];
+            var skills = _skillRepository.ListAllByUserId(userId);
+            var experiences = _experienceRepository.ListAllByUserId(userId);
+            var socialMedias = _socialMediaInfoRepository.ListAllByUserId(userId);
+
+            var userCompleteInfo = new UserCompleteInfo(userInfo.UserId, userInfo.Name, userInfo.PhoneNumber, userInfo.Email, userInfo.City, userInfo.State, userInfo.ProfileImageUrl, skills, experiences, socialMedias);
+
+            return userCompleteInfo;
         }
     }
 }

@@ -34,6 +34,7 @@ builder.Services.AddScoped<IRepository<Experience>, ExperiencesRepository>();
 builder.Services.AddScoped<IService<SocialMediaInfo>, SocialMediaInfoService>();
 builder.Services.AddScoped<IRepository<SocialMediaInfo>, SocialMediaInfoRepository>();
 builder.Services.AddScoped<IService<UserInfo>, UserInfoService>();
+builder.Services.AddScoped<IUserCompleteInfoService, UserInfoService>();
 builder.Services.AddScoped<IRepository<UserInfo>, UserInfoRepository>();
 
 

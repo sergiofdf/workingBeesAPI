@@ -12,15 +12,17 @@ namespace WorkingBeesAPI.Controllers
     public class UserInfoController : Controller
     {
         private readonly IService<UserInfo> _userService;
+        private readonly IUserCompleteInfoService _userCompleteInfoService;
         private readonly IMapper _mapper;
 
-        public UserInfoController(IService<UserInfo> userService, IMapper mapper)
+        public UserInfoController(IService<UserInfo> userService, IMapper mapper, IUserCompleteInfoService userCompleteInfoService)
         {
             _userService = userService;
+            _userCompleteInfoService = userCompleteInfoService;
             _mapper = mapper;
         }
 
-        [HttpGet("/User")]
+        [HttpGet("/Users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<UserInfo>> ListAllUsers()
         {
@@ -35,6 +37,16 @@ namespace WorkingBeesAPI.Controllers
             var user = _userService.Listallbyuserid(userId);
             if (user == null) return NotFound();
             return Ok(user);//revisar, pq a funcao list all está retornando um array
+        }
+
+        [HttpGet("/UserCompleteInfo/{userId}/id")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<UserCompleteInfo> GetUserCompleteInfo(long userId)
+        {
+            var user = _userCompleteInfoService.CompileUserInfo(userId);
+            if (user == null) return NotFound();
+            return Ok(user);
         }
 
         [HttpPost("/User")]
